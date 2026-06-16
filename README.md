@@ -1,7 +1,4 @@
-```python
-import base64
-
-readme_content = """# ECO-SHARE: Platform Manajemen Distribusi Energi & Swasembada Ekonomi
+# ECO-SHARE: Platform Manajemen Distribusi Energi & Swasembada Ekonomi
 
 Repositori ini adalah template dasar proyek Laravel Fullstack untuk simulasi babak final Hackathon Play IT 2026. Fokus repositori ini sekarang adalah **Setup Awal Lingkungan Pengembangan (Development Environment Setup)** agar seluruh anggota tim memiliki basis kode dan database yang sinkron.
 
@@ -22,12 +19,6 @@ Jika ketua tim sudah melakukan *push* kode awal ke GitHub, 2 anggota tim lainnya
 
 ### 1. Kloning Repositori
 Buka Terminal atau Git Bash, lalu kloning proyek ini:
-
-```
-
-```text
-README.md generated successfully.
-
 ```bash
 git clone <URL_REPOSITORI_GITHUB_KAMU>
 cd eco-share
@@ -75,17 +66,20 @@ php artisan key:generate
 1. Buka **phpMyAdmin** (`http://localhost/phpmyadmin`).
 2. Buat database baru kosongan dengan nama: **`eco_share`**.
 3. Buka file `.env` di VS Code kamu, lalu pastikan konfigurasinya sudah sesuai:
+
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=eco_share
 DB_USERNAME=root
-DB_PASSWORD=(kosongkna jika tanpa pass)
+DB_PASSWORD=(kosongkan jika tanpa pass)
 
 ```
 
+*(Kosongkan bagian DB_PASSWORD jika kamu menggunakan XAMPP bawaan standar tanpa password)*
 
+```
 
 ---
 
@@ -94,13 +88,14 @@ DB_PASSWORD=(kosongkna jika tanpa pass)
 Agar fitur **Auto Refresh (Live Reload)** berjalan secara otomatis setiap kali ada perubahan pada file `.blade.php` atau Controller, kamu **WAJIB** membuka dua jendela terminal secara bersamaan:
 
 * **Terminal 1 (Server Backend PHP):**
+
 ```bash
 php artisan serve
 
 ```
 
-
 * **Terminal 2 (Server Frontend Vite - JANGAN DITUTUP):**
+
 ```bash
 npm run dev
 
@@ -108,6 +103,8 @@ npm run dev
 
 Buka browser kamu dan akses link berikut: **`http://127.0.0.1:8000`**
 
-```
+---
 
-Silakan dicoba instruksinya, kabari saya jika ada temanmu yang mengalami kendala saat proses instalasi. programmer by putra!
+Programmer by Putra!
+
+```
