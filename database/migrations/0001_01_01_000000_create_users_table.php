@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // Tambahkan kolom role di bawah ini
+            $table->enum('role', ['admin', 'petani'])->default('petani'); 
             $table->rememberToken();
             $table->timestamps();
         });

@@ -14,12 +14,21 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      */
     public function run(): void
-    {
-        // User::factory(10)->create();
+{
+    // Akun khusus untuk Admin
+    \App\Models\User::create([
+        'name' => 'Admin Koperasi Grids',
+        'email' => 'admin@gmail.com',
+        'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        'role' => 'admin', // Set sebagai admin
+    ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-    }
+    // Akun khusus untuk Petani
+    \App\Models\User::create([
+        'name' => 'Brokline Petani Smart',
+        'email' => 'brokline@gmail.com',
+        'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        'role' => 'petani', // Set sebagai petani
+    ]);
+}
 }
