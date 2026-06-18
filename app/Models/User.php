@@ -29,4 +29,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // app/Models/User.php
+    public function setorans()
+   {
+         return $this->hasMany(Setoran::class);
+   }
 }
