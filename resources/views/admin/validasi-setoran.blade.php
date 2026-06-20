@@ -47,13 +47,15 @@
                                 <td class="px-5 py-4 text-center">
                                     @if($item->status == 'pending')
                                         <div class="flex justify-center gap-2">
-                                            <form action="{{ route('admin.validasi.update', $item->id) }}" method="POST">
-                                                @csrf @method('PATCH')
-                                                <input type="hidden" name="status" value="approved">
-                                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold shadow"> Setujui </button>
+                                            <form action="{{ route('admin.validasi.updateStatus', $row->id) }}" method="POST">
+                                                 @csrf
+                                                 @method('PATCH')
+                                                 <input type="hidden" name="status" value="approved">
+                                                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-lg text-[11px]">
+                                                  Setujui
+                                                 </button>
                                             </form>
-
-                                            <form action="{{ route('admin.validasi.update', $item->id) }}" method="POST">
+                                            <form action="{{ route('admin.validasi.updateStatus ', $item->id) }}" method="POST">
                                                 @csrf @method('PATCH')
                                                 <input type="hidden" name="status" value="rejected">
                                                 <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold shadow"> Tolak </button>

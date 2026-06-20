@@ -4,43 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setoran;
+use App\Models\StokBiomassa;
 use Illuminate\Http\Request;
 
 class ValidasiSetoranController extends Controller
 {
-    // 1. Menampilkan semua daftar antrean setoran limbah dari petani
     public function index()
     {
-        // Mengambil semua setoran beserta data petani (user) yang mengajukannya
-        $daftarSetoran = Setoran::with('user')->orderBy('created_at', 'desc')->get();
-        return view('admin.validasi-setoran', compact('daftarSetoran'));
+        $setorans = Setoran::with('user')->orderBy('created_at', 'desc')->get();
+        return view('admin.validasi.index', compact('setorans'));
     }
 
-    // 2. Proses Validasi (Approved / Rejected) oleh Admin
-    public function updateStatus(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|in:approved,rejected'
-        ]);
+public function updateStatus(Request $request, $id) 
+{
+    $request->validate(['status' => 'required|in:approved,rejected']);
+    $setoran = Setoran::findOrFail($id);
 
-        $setoran = Setoran::findOrFail($id);
-        
-        // Cegah manipulasi jika statusnya sudah tidak pending lagi
-        if ($setoran->status !== 'pending') {
-            return redirect()->back()->with('error', 'Setoran ini sudah divalidasi sebelumnya!');
-        }
+    // DEBUGGING: Cek data apa yang sedang diproses
+    // dd($setoran->jenis_limbah, $setoran->berat); 
 
-        $setoran->status = $request->status;
-
-        // JIKA DISETUJUI -> Jalankan Formula Otomatis (1 Kg = 10 Poin)
-        if ($request->status === 'approved') {
-            $setoran->poin_didapat = $setoran->berat * 10;
-        } else {
-            $setoran->poin_didapat = 0;
-        }
-
-        $setoran->save();
-
-        return redirect()->back()->with('success', 'Status setoran berhasil diperbarui!');
+    if ($setoran->status === $request->status) {
+        return back()->with('info', 'Status tidak berubah.');
     }
+
+    // PAKSA STRING JADI LOWERCASE agar cocok dengan database
+    $jenisLimbah = strtolower(trim($setoran->jenis_limbah));
+
+    $stok = StokBiomassa::firstOrCreate(
+        ['jenis_limbah' => $jenisLimbah], // Pastikan ini lowercase
+        ['total_berat' => 0]
+    );
+
+    if ($request->status === 'approved') {
+        $stok->total_berat += $setoran->berat;
+    } elseif ($request->status === 'rejected' && $setoran->status === 'approved') {
+        $stok->total_berat -= $setoran->berat;
+    }
+
+    $stok->save();
+    $setoran->update(['status' => $request->status]);
+
+    return back()->with('success', 'Status & Stok berhasil disinkronkan!');
+}
+
 }
